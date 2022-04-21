@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErniAcademy.Cache.Contracts
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErniAcademy.Cache.OnMemory", "src\ErniAcademy.Cache.OnMemory\ErniAcademy.Cache.OnMemory.csproj", "{EC269A97-98DE-4872-BCDD-15BEC710E80B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErniAcademy.Cache.IntegrationTests", "tests\ErniAcademy.Cache.IntegrationTests\ErniAcademy.Cache.IntegrationTests.csproj", "{E62A5A84-30EB-4BD1-8941-DCA321ED598A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,10 @@ Global
 		{EC269A97-98DE-4872-BCDD-15BEC710E80B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC269A97-98DE-4872-BCDD-15BEC710E80B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC269A97-98DE-4872-BCDD-15BEC710E80B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E62A5A84-30EB-4BD1-8941-DCA321ED598A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E62A5A84-30EB-4BD1-8941-DCA321ED598A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E62A5A84-30EB-4BD1-8941-DCA321ED598A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E62A5A84-30EB-4BD1-8941-DCA321ED598A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{63180E75-1A65-4BD3-9A84-8575591599BD} = {C5B89AC1-B554-400E-AACA-CC33C2A3C789}
 		{8CDBA07A-12F8-43F4-92E3-21167BB7F6B3} = {2D2DF22D-D0CE-4606-9E05-C323A911E0D9}
 		{EC269A97-98DE-4872-BCDD-15BEC710E80B} = {2D2DF22D-D0CE-4606-9E05-C323A911E0D9}
+		{E62A5A84-30EB-4BD1-8941-DCA321ED598A} = {E9BEC824-50B2-4246-9250-636486A70721}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A45AECB9-C582-41C2-B1B2-E1F1684488D5}

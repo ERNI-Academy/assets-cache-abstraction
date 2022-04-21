@@ -399,4 +399,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-/tests/ErniAcademy.Events.IntegrationTests/tests.settings.Development.json
+/tests/ErniAcademy.Cache.IntegrationTests/tests.settings.Development.json
