@@ -15,8 +15,26 @@ public interface ICacheManager
     /// </summary>
     /// <typeparam name="TItem">generic type of the item</typeparam>
     /// <param name="key">the unique identifier key</param>
+    /// <param name="factory">if the item is not in cache this factory will be invoked to get the item</param>
+    /// <returns>TItem instance. default(TItem) if not found</returns>
+    TItem GetOrAdd<TItem>(string key, Func<TItem> factory);
+
+    /// <summary>
+    /// Get an Item from cache
+    /// </summary>
+    /// <typeparam name="TItem">generic type of the item</typeparam>
+    /// <param name="key">the unique identifier key</param>
     /// <returns>Task<TItem>. default(TItem) if not found</returns>
     Task<TItem> GetAsync<TItem>(string key);
+
+    /// <summary>
+    /// Get an Item from cache
+    /// </summary>
+    /// <typeparam name="TItem">generic type of the item</typeparam>
+    /// <param name="key">the unique identifier key</param>
+    /// <param name="factory">if the item is not in cache this factory will be invoked to get the item</param>
+    /// <returns>Task<TItem>. default(TItem) if not found</returns>
+    Task<TItem> GetOrAddAsync<TItem>(string key, Func<Task<TItem>> factory);
 
     /// <summary>
     /// Set an Item into the cache
