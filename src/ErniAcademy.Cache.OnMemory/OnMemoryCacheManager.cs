@@ -1,15 +1,19 @@
 ﻿using ErniAcademy.Cache.Contracts;
 using ErniAcademy.Cache.OnMemory.Extensions;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Options;
 
 namespace ErniAcademy.Cache.OnMemory;
 
-public class MemoryCacheManager : ICacheManager
+public class OnMemoryCacheManager : ICacheManager
 {
     private readonly MemoryCache _memoryCache;
 
-    public MemoryCacheManager(IOptions<MemoryCacheOptions> options)
+    public OnMemoryCacheManager()
+        : this(new MemoryCacheOptions())
+    {
+    }
+
+    public OnMemoryCacheManager(MemoryCacheOptions options)
     {
         _memoryCache = new MemoryCache(options);
     }
@@ -40,5 +44,5 @@ public class MemoryCacheManager : ICacheManager
     {
         Remove(key);
         return Task.CompletedTask;
-    }    
+    }
 }
