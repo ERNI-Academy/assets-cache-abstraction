@@ -24,12 +24,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".samples", ".samples", "{4A389165-43F2-4D80-BA5D-6E09EEC27ABD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErniAcademy.Cache.Contracts", "src\ErniAcademy.Cache.Contracts\ErniAcademy.Cache.Contracts.csproj", "{8CDBA07A-12F8-43F4-92E3-21167BB7F6B3}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CDBA07A-12F8-43F4-92E3-21167BB7F6B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CDBA07A-12F8-43F4-92E3-21167BB7F6B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CDBA07A-12F8-43F4-92E3-21167BB7F6B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CDBA07A-12F8-43F4-92E3-21167BB7F6B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{63180E75-1A65-4BD3-9A84-8575591599BD} = {C5B89AC1-B554-400E-AACA-CC33C2A3C789}
+		{8CDBA07A-12F8-43F4-92E3-21167BB7F6B3} = {2D2DF22D-D0CE-4606-9E05-C323A911E0D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A45AECB9-C582-41C2-B1B2-E1F1684488D5}
