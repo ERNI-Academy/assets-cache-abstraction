@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace ErniAcademy.Cache.Contracts;
 
-public static class ICacheManagerExtensions
+public static class CacheManagerExtensions
 {
     private static readonly ConcurrentDictionary<string, Lazy<SemaphoreSlim>> _semaphores = new ConcurrentDictionary<string, Lazy<SemaphoreSlim>>();
     private static readonly ObjectIDGenerator _objectIdGenerator = new ObjectIDGenerator();

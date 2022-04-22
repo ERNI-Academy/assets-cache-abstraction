@@ -3,7 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace ErniAcademy.Cache.OnMemory.Extensions;
 
-public static class ICacheOptionsExtensions
+public static class CacheOptionsExtensions
 {
     public static MemoryCacheEntryOptions ToMemoryCacheEntryOptions(this ICacheOptions options)
     {

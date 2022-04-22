@@ -4,7 +4,7 @@ using FluentAssertions;
 using System;
 using Xunit;
 
-namespace ErniAcademy.Cache.StorageBlobs.UnitTests.ICacheOptionsExtensionsTests;
+namespace ErniAcademy.Cache.StorageBlobs.UnitTests.CacheOptionsExtensionsTests;
 
 public class GetAbsoluteExpiration
 {
