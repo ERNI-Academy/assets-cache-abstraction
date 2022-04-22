@@ -8,7 +8,7 @@ namespace ErniAcademy.Cache.StorageBlobs.UnitTests.OnMemoryCacheManagerTests;
 public class GuardValue
 {
     [Fact]
-    public void With_null_value_Throws_ArgumentNullException()
+    public void With_null_value_Throws_ArgumentException()
     {
         //Arrange
         string value = null;
@@ -17,14 +17,18 @@ public class GuardValue
         var actual = () => OnMemoryCacheManager.GuardValue(value);
 
         //Assert
-        var error = actual.Should().Throw<ArgumentNullException>();
-        error.Which.Message.Should().Contain("value");
+        var error = actual.Should().Throw<ArgumentException>();
+        error.Which.Message.Should().Contain("cache a default value is not allowed");
     }
 
     [Theory]
     [InlineData("valid value")]
-    [InlineData("also a value")]
-    public void With_valid_value_Should_not_throw(string value)
+    [InlineData('c')]
+    [InlineData(true)]
+    [InlineData(false)]
+    [InlineData(5)]
+    [InlineData(11.99)]
+    public void With_valid_value_Should_not_throw(object value)
     {
         //Act
         var actual = () => OnMemoryCacheManager.GuardValue(value);

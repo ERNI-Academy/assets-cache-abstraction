@@ -118,9 +118,9 @@ public class StorageBlobsCacheManager : ICacheManager
 
     internal static void GuardValue<TItem>(TItem value)
     {
-        if (value == null)
+        if (EqualityComparer<TItem>.Default.Equals(value, default))
         {
-            throw new ArgumentNullException(nameof(value));
+            throw new ArgumentException($"cache a default value is not allowed", nameof(value));
         }
     }
 }
