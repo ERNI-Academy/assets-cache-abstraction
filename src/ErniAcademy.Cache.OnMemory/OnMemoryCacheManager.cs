@@ -20,29 +20,7 @@ public class OnMemoryCacheManager : ICacheManager
 
     public TItem Get<TItem>(string key) => _memoryCache.Get<TItem>(key);
 
-    public TItem GetOrAdd<TItem>(string key, Func<TItem> factory, ICacheOptions options = null)
-    {
-        return _memoryCache.GetOrCreate<TItem>(key, (cacheEntry) => {
-            cacheEntry.AbsoluteExpiration = options.AbsoluteExpiration;
-            cacheEntry.AbsoluteExpirationRelativeToNow = options.AbsoluteExpirationRelativeToNow;
-            cacheEntry.SlidingExpiration = options.SlidingExpiration;
-
-            return factory();
-        });
-    }
-
     public Task<TItem> GetAsync<TItem>(string key) => Task.FromResult(Get<TItem>(key));
-
-    public Task<TItem> GetOrAddAsync<TItem>(string key, Func<Task<TItem>> factory, ICacheOptions options = null)
-    {
-        return _memoryCache.GetOrCreateAsync<TItem>(key, (cacheEntry) => {
-            cacheEntry.AbsoluteExpiration = options.AbsoluteExpiration;
-            cacheEntry.AbsoluteExpirationRelativeToNow = options.AbsoluteExpirationRelativeToNow;
-            cacheEntry.SlidingExpiration = options.SlidingExpiration;
-
-            return factory(); 
-        });
-    }
 
     public void Set<TItem>(string key, TItem value, ICacheOptions options = null) => _memoryCache.Set<TItem>(key, value, options.ToMemoryCacheEntryOptions());
 
