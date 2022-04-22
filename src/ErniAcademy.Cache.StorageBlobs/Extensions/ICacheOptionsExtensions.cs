@@ -7,7 +7,7 @@ public static class ICacheOptionsExtensions
 {
     public static Dictionary<string, string> ToMetadata(this ICacheOptions options)
     {
-        if (options == null) return null;
+        if (options == null) return new Dictionary<string, string>();
 
         var dateTimeOffset = DateTimeOffset.UtcNow;
         var expiration = options.GetAbsoluteExpiration(dateTimeOffset) ?? dateTimeOffset;
