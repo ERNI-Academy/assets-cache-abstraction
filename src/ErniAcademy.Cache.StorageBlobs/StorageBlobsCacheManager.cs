@@ -60,6 +60,8 @@ public class StorageBlobsCacheManager : ICacheManager
 
     public async Task SetAsync<TItem>(string key, TItem value, ICacheOptions options = null, CancellationToken cancellationToken = default)
     {
+        GuardValue(value);
+
         await using var stream = new MemoryStream();
         await _serializer.SerializeToStreamAsync(value, stream, cancellationToken);
         stream.Seek(0, SeekOrigin.Begin);
@@ -97,6 +99,12 @@ public class StorageBlobsCacheManager : ICacheManager
 
     internal BlobClient GetBlobClient(string key)
     {
+        GuardKey(key);
+        return _blobContainerClientLazy.Value.GetBlobClient(key);
+    }
+
+    internal static void GuardKey(string key)
+    {
         if (key == null)
         {
             throw new ArgumentNullException(nameof(key));
@@ -104,9 +112,15 @@ public class StorageBlobsCacheManager : ICacheManager
 
         if (string.IsNullOrWhiteSpace(key))
         {
-            throw new ArgumentException($"invalid {nameof(key)} is mandatory", nameof(key));
+            throw new ArgumentException($"invalid {nameof(key)}", nameof(key));
         }
+    }
 
-        return _blobContainerClientLazy.Value.GetBlobClient(key);
+    internal static void GuardValue<TItem>(TItem value)
+    {
+        if (value == null)
+        {
+            throw new ArgumentNullException(nameof(value));
+        }
     }
 }

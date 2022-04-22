@@ -20,4 +20,10 @@
 		<ProjectReference Include="..\ErniAcademy.Cache.Contracts\ErniAcademy.Cache.Contracts.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+			<_Parameter1>ErniAcademy.Cache.OnMemory.UnitTests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
 </Project>

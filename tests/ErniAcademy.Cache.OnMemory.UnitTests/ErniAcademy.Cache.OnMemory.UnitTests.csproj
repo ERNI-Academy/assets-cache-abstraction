@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
@@ -24,7 +24,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\src\ErniAcademy.Cache.StorageBlobs\ErniAcademy.Cache.StorageBlobs.csproj" />
+	  <ProjectReference Include="..\..\src\ErniAcademy.Cache.OnMemory\ErniAcademy.Cache.OnMemory.csproj" />
 	</ItemGroup>
+
 
 </Project>
