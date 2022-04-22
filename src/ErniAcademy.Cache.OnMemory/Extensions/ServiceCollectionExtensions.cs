@@ -11,23 +11,13 @@ public static class ServiceCollectionExtensions
     /// Extension method to configure ICacheManager contract with OnMemoryCacheManager impl
     /// </summary>
     /// <param name="services">the ServiceCollection</param>
-    /// <returns>IServiceCollection</returns>
-    public static IServiceCollection AddCacheOnMemory(this IServiceCollection services)
-    {
-        services.TryAddSingleton<ICacheManager, OnMemoryCacheManager>();
-
-        return services;
-    }
-
-    /// <summary>
-    /// Extension method to configure ICacheManager contract with OnMemoryCacheManager impl
-    /// </summary>
-    /// <param name="services">the ServiceCollection</param>
     /// <param name="options">the options of the cache</param>
     /// <returns>IServiceCollection</returns>
-    public static IServiceCollection AddCacheOnMemory(this IServiceCollection services, MemoryCacheOptions options)
+    public static IServiceCollection AddCacheOnMemory(this IServiceCollection services, MemoryCacheOptions options = null)
     {
-        services.TryAddSingleton<ICacheManager, OnMemoryCacheManager>();
+        services.TryAddSingleton<ICacheManager>(p => {
+            return options == null ? new OnMemoryCacheManager() : new OnMemoryCacheManager(options);
+        });
 
         return services;
     }
