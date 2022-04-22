@@ -4,7 +4,9 @@ using Azure.Storage.Blobs.Models;
 using ErniAcademy.Cache.Contracts;
 using ErniAcademy.Cache.StorageBlobs.Extensions;
 using ErniAcademy.Events.StorageBlobs.ClientProvider;
+using ErniAcademy.Events.StorageBlobs.Configuration;
 using ErniAcademy.Serializers.Contracts;
+using Microsoft.Extensions.Options;
 
 namespace ErniAcademy.Cache.StorageBlobs;
 
@@ -12,13 +14,17 @@ public class StorageBlobsCacheManager : ICacheManager
 {
     private readonly Lazy<BlobContainerClient> _blobContainerClientLazy;
     private readonly ISerializer _serializer;
+    private readonly ICacheOptions _defaultOptions;
 
     public StorageBlobsCacheManager(
         IBlobContainerClientProvider blobContainerClientProvider,
-        ISerializer serializer)
+        ISerializer serializer,
+        IOptionsMonitor<StorageBlobsCacheOptions> options)
     {
         _blobContainerClientLazy = new Lazy<BlobContainerClient>(() => blobContainerClientProvider.GetClient());
         _serializer = serializer;
+        _defaultOptions = new CacheOptions();
+        _defaultOptions.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(options.CurrentValue.TimeToLiveInSeconds);
     }
 
     public TItem Get<TItem>(string key) => GetAsync<TItem>(key).GetAwaiter().GetResult();
@@ -61,7 +67,7 @@ public class StorageBlobsCacheManager : ICacheManager
         var blobHttpHeaders = new BlobHttpHeaders { ContentType = _serializer.ContentType };
 
         var blobClient = GetBlobClient(key);
-        await blobClient.UploadAsync(stream, blobHttpHeaders, options.ToMetadata(), cancellationToken: cancellationToken);
+        await blobClient.UploadAsync(stream, blobHttpHeaders, (options ?? _defaultOptions).ToMetadata(), cancellationToken: cancellationToken);
     }
 
     public bool Exists(string key) => ExistsAsync(key).GetAwaiter().GetResult();

@@ -28,12 +28,13 @@ public static class ServiceCollectionExtensions
         BlobClientOptions blobOptions = null)
     {
         services.AddOptions<ConnectionStringOptions>().Bind(configuration.GetSection(sectionKey)).ValidateDataAnnotations();
+        services.AddOptions<StorageBlobsCacheOptions>().Bind(configuration.GetSection(sectionKey)).ValidateDataAnnotations();
 
         services.TryAddSingleton<ICacheManager>(provider =>
         {
             var blobContainerClientProvider = new ConnectionStringProvider(provider.GetRequiredService<IOptionsMonitor<ConnectionStringOptions>>(), blobOptions);
-
-            return new StorageBlobsCacheManager(blobContainerClientProvider, serializer);
+            
+            return new StorageBlobsCacheManager(blobContainerClientProvider, serializer, provider.GetRequiredService<IOptionsMonitor<StorageBlobsCacheOptions>>());
         });
 
         return services;

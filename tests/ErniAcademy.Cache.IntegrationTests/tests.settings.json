@@ -3,7 +3,8 @@
   "Cache": {
     "StorageBlobs": {
       "ConnectionString": "",
-      "ContainerName": "cachetests"
+      "ContainerName": "cachetests",
+      "TimeToLiveInSeconds": 5
     }
   }
 }
