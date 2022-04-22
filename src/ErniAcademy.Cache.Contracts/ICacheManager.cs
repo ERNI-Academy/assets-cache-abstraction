@@ -17,7 +17,7 @@ public interface ICacheManager
     /// <param name="key">the unique identifier key</param>
     /// <param name="factory">if the item is not in cache this factory will be invoked to get the item</param>
     /// <returns>TItem instance. default(TItem) if not found</returns>
-    TItem GetOrAdd<TItem>(string key, Func<TItem> factory);
+    TItem GetOrAdd<TItem>(string key, Func<TItem> factory, ICacheOptions options = null);
 
     /// <summary>
     /// Get an Item from cache
@@ -34,7 +34,7 @@ public interface ICacheManager
     /// <param name="key">the unique identifier key</param>
     /// <param name="factory">if the item is not in cache this factory will be invoked to get the item</param>
     /// <returns>Task<TItem>. default(TItem) if not found</returns>
-    Task<TItem> GetOrAddAsync<TItem>(string key, Func<Task<TItem>> factory);
+    Task<TItem> GetOrAddAsync<TItem>(string key, Func<Task<TItem>> factory, ICacheOptions options = null);
 
     /// <summary>
     /// Set an Item into the cache
