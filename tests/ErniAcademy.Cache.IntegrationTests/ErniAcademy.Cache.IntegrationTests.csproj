@@ -29,8 +29,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\..\assets-serializers-abstraction\src\ErniAcademy.Serializers.Json\ErniAcademy.Serializers.Json.csproj" />
 		<ProjectReference Include="..\..\src\ErniAcademy.Cache.Contracts\ErniAcademy.Cache.Contracts.csproj" />
 		<ProjectReference Include="..\..\src\ErniAcademy.Cache.OnMemory\ErniAcademy.Cache.OnMemory.csproj" />
+		<ProjectReference Include="..\..\src\ErniAcademy.Cache.StorageBlobs\ErniAcademy.Cache.StorageBlobs.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

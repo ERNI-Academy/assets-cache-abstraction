@@ -57,7 +57,7 @@ public abstract class BaseTests
         var actual = _sut.Get<CacheItemDummy>(key);
 
         //Assert
-        actual.Should().Be(item);
+        actual.Should().BeEquivalentTo(item);
     }
 
     [Fact]
@@ -91,7 +91,7 @@ public abstract class BaseTests
         var actual = _sut.GetOrAdd<CacheItemDummy>(key, factory);
 
         //Assert
-        actual.Should().Be(item);
+        actual.Should().BeEquivalentTo(item);
     }
 
     [Fact]
@@ -109,7 +109,7 @@ public abstract class BaseTests
         var actual = _sut.GetOrAdd<CacheItemDummy>(key, factory);
 
         //Assert
-        actual.Should().Be(item);
+        actual.Should().BeEquivalentTo(item);
     }
 
     [Fact]
@@ -138,7 +138,7 @@ public abstract class BaseTests
         var actual = await _sut.GetAsync<CacheItemDummy>(key);
 
         //Assert
-        actual.Should().Be(item);
+        actual.Should().BeEquivalentTo(item);
     }
 
     [Fact]
@@ -172,7 +172,7 @@ public abstract class BaseTests
         var actual = await _sut.GetOrAddAsync<CacheItemDummy>(key, factory);
 
         //Assert
-        actual.Should().Be(item);
+        actual.Should().BeEquivalentTo(item);
     }
 
     [Fact]
@@ -190,7 +190,7 @@ public abstract class BaseTests
         var actual = await _sut.GetOrAddAsync<CacheItemDummy>(key, factory);
 
         //Assert
-        actual.Should().Be(item);
+        actual.Should().BeEquivalentTo(item);
     }
 
     [Fact]
@@ -205,7 +205,7 @@ public abstract class BaseTests
 
         //Assert
         var actual = _sut.Get<CacheItemDummy>(key);
-        actual.Should().Be(item);
+        actual.Should().BeEquivalentTo(item);
     }
 
     [Fact]
@@ -224,7 +224,7 @@ public abstract class BaseTests
 
         //Assert
         var actual = _sut.Get<CacheItemDummy>(key);
-        actual.Should().Be(updated);
+        actual.Should().BeEquivalentTo(updated);
     }
 
     [Fact]
@@ -239,7 +239,7 @@ public abstract class BaseTests
 
         //Assert
         var actual = _sut.Get<CacheItemDummy>(key);
-        actual.Should().Be(item);
+        actual.Should().BeEquivalentTo(item);
     }
 
     [Fact]
@@ -258,7 +258,7 @@ public abstract class BaseTests
 
         //Assert
         var actual = _sut.Get<CacheItemDummy>(key);
-        actual.Should().Be(updated);
+        actual.Should().BeEquivalentTo(updated);
     }
 
     [Fact]
