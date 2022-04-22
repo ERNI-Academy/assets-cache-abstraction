@@ -23,9 +23,9 @@ public static class ICacheOptionsExtensions
         if (options.AbsoluteExpiration.HasValue && options.AbsoluteExpiration <= creationTime)
         {
             throw new ArgumentOutOfRangeException(
-                nameof(CacheOptions.AbsoluteExpiration),
+                nameof(options),
                 options.AbsoluteExpiration.Value,
-                "The absolute expiration value must be in the future.");
+                $"The {nameof(CacheOptions.AbsoluteExpiration)} value must be in the future.");
         }
 
         var absoluteExpiration = options.AbsoluteExpirationRelativeToNow.HasValue
