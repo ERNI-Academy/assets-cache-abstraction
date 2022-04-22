@@ -318,4 +318,67 @@ public abstract class BaseTests
         //Assert
         actual.Should().BeTrue();
     }
+
+
+
+
+    [Fact]
+    public void Remove_with_no_item_in_cache_Should_do_nothing()
+    {
+        //Arrange
+        var key = "remove_with_no_item";
+
+        //Act
+        var actual = ()=> _sut.Remove(key);
+
+        //Assert
+        actual.Should().NotThrow();
+    }
+
+    [Fact]
+    public void Remove_with_item_in_cache_Should_remove()
+    {
+        //Arrange
+        var key = "remove_with_item";
+        var item = new CacheItemDummy { Name = "hi" };
+
+        _sut.Set<CacheItemDummy>(key, item);
+
+        //Act
+        _sut.Remove(key);
+
+        //Assert
+        var actual = _sut.Exists(key);
+        actual.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task RemoveAsync_with_no_item_in_cache_Should_do_nothing()
+    {
+        //Arrange
+        var key = "removeasync_with_no_item";
+
+        //Act
+        var actual = ()=> _sut.RemoveAsync(key);
+
+        //Assert
+        await actual.Should().NotThrowAsync();
+    }
+
+    [Fact]
+    public async Task RemoveAsync_with_item_in_cache_Should_remove_item()
+    {
+        //Arrange
+        var key = "removeasync_with_item";
+        var item = new CacheItemDummy { Name = "hi" };
+
+        _sut.Set<CacheItemDummy>(key, item);
+
+        //Act
+        await _sut.RemoveAsync(key);
+
+        //Assert
+        var actual = _sut.Exists(key);
+        actual.Should().BeFalse();
+    }
 }
