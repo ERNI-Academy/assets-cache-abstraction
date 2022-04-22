@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
-using ErniAcademy.Events.StorageBlobs.Configuration;
+using ErniAcademy.Cache.StorageBlobs.Configuration;
 using Azure.Storage.Blobs;
 
-namespace ErniAcademy.Events.StorageBlobs.ClientProvider;
+namespace ErniAcademy.Cache.StorageBlobs.ClientProvider;
 
 /// <summary>
 /// Provider to build a BlobContainerClient based on connection string settings

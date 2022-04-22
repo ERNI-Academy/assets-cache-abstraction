@@ -1,7 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using ErniAcademy.Cache.Contracts;
-using ErniAcademy.Events.StorageBlobs.ClientProvider;
-using ErniAcademy.Events.StorageBlobs.Configuration;
+using ErniAcademy.Cache.StorageBlobs.ClientProvider;
+using ErniAcademy.Cache.StorageBlobs.Configuration;
 using ErniAcademy.Serializers.Contracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

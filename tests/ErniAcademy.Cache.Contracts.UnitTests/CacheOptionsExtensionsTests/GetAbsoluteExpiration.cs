@@ -1,10 +1,9 @@
-using ErniAcademy.Cache.Contracts;
-using ErniAcademy.Cache.StorageBlobs.Extensions;
+using ErniAcademy.Cache.Contracts.Extensions;
 using FluentAssertions;
 using System;
 using Xunit;
 
-namespace ErniAcademy.Cache.StorageBlobs.UnitTests.CacheOptionsExtensionsTests;
+namespace ErniAcademy.Cache.Contracts.UnitTests.CacheOptionsExtensionsTests;
 
 public class GetAbsoluteExpiration
 {

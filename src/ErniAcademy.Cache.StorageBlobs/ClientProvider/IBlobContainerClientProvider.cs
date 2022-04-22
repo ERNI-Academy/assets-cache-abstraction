@@ -1,7 +1,7 @@
 ﻿
 using Azure.Storage.Blobs;
 
-namespace ErniAcademy.Events.StorageBlobs.ClientProvider;
+namespace ErniAcademy.Cache.StorageBlobs.ClientProvider;
 
 /// <summary>
 /// Contract to provide an instance of BlobContainerClient

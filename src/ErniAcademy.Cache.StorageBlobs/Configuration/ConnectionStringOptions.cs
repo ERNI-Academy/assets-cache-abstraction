@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ErniAcademy.Events.StorageBlobs.Configuration;
+namespace ErniAcademy.Cache.StorageBlobs.Configuration;
 
 public class ConnectionStringOptions
 {
