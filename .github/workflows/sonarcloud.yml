@@ -1,0 +1,50 @@
+name: Sonarcloud
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_call:
+    secrets:
+        SONAR_TOKEN:
+          required: true
+  workflow_dispatch: ~
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - uses: microsoft/variable-substitution@v1 
+        with:
+            files: 'tests/ErniAcademy.Cache.IntegrationTests/tests.settings.json'
+        env:
+            Environment: DEV
+            Cache.StorageBlobs.ConnectionString: ${{ secrets.CACHE_STORAGEBLOBS_CONNECTIONSTRING }}
+      
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+
+      - name: Install dotnet SonarCloud scanner
+        run: |
+             dotnet tool install --global dotnet-sonarscanner
+        shell: powershell
+                  
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
+            dotnet sonarscanner begin /k:"ERNI-Academy_assets-cache-abstraction" /o:"erni-academy" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
+            dotnet build ./Cache.sln --configuration Release
+            dotnet test "tests/ErniAcademy.Cache.IntegrationTests/ErniAcademy.Cache.IntegrationTests.csproj" --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+            dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"

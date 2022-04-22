@@ -22,6 +22,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".sln", ".sln", "{4DF3D0C1-6
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{63180E75-1A65-4BD3-9A84-8575591599BD}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\sonarcloud.yml = .github\workflows\sonarcloud.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".samples", ".samples", "{4A389165-43F2-4D80-BA5D-6E09EEC27ABD}"
 EndProject
