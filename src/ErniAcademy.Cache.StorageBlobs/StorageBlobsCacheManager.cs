@@ -1,5 +1,4 @@
 ﻿using Azure;
-using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using ErniAcademy.Cache.Contracts;
@@ -32,7 +31,7 @@ public class StorageBlobsCacheManager : ICacheManager
 
         try
         {
-            blobResponse = await blobClient.DownloadStreamingAsync();
+            blobResponse = await blobClient.DownloadStreamingAsync(cancellationToken: cancellationToken);
         }
         catch (RequestFailedException ex)
             when (ex.ErrorCode == BlobErrorCode.BlobNotFound)
@@ -62,15 +61,7 @@ public class StorageBlobsCacheManager : ICacheManager
         var blobHttpHeaders = new BlobHttpHeaders { ContentType = _serializer.ContentType };
 
         var blobClient = GetBlobClient(key);
-        await blobClient.UploadAsync(
-            stream, 
-            blobHttpHeaders, 
-            options.ToMetadata(),
-            conditions: null, 
-            progressHandler: null, 
-            accessTier: null, 
-            transferOptions: default(StorageTransferOptions),
-            cancellationToken);
+        await blobClient.UploadAsync(stream, blobHttpHeaders, options.ToMetadata(), cancellationToken: cancellationToken);
     }
 
     public bool Exists(string key) => ExistsAsync(key).GetAwaiter().GetResult();
@@ -95,7 +86,7 @@ public class StorageBlobsCacheManager : ICacheManager
     public Task RemoveAsync(string key, CancellationToken cancellationToken = default)
     {
         var blobClient = GetBlobClient(key);
-        return blobClient.DeleteIfExistsAsync(snapshotsOption: DeleteSnapshotsOption.None, conditions: null, cancellationToken);
+        return blobClient.DeleteIfExistsAsync(cancellationToken: cancellationToken);
     }
 
     internal BlobClient GetBlobClient(string key)
