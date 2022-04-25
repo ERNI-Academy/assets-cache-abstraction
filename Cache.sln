@@ -42,13 +42,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErniAcademy.Serializers.Con
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErniAcademy.Serializers.Json", "assets-serializers-abstraction\src\ErniAcademy.Serializers.Json\ErniAcademy.Serializers.Json.csproj", "{BB6D4C6C-FBF9-4934-A4E2-43BB9559F452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErniAcademy.Cache.Contracts.UnitTests", "tests\ErniAcademy.Cache.Contracts.UnitTests\ErniAcademy.Cache.Contracts.UnitTests.csproj", "{8393EFF3-2089-40B5-93AE-7BEF38F885D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErniAcademy.Cache.Contracts.UnitTests", "tests\ErniAcademy.Cache.Contracts.UnitTests\ErniAcademy.Cache.Contracts.UnitTests.csproj", "{8393EFF3-2089-40B5-93AE-7BEF38F885D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErniAcademy.Cache.StorageBlobs.UnitTests", "tests\ErniAcademy.Cache.StorageBlobs.UnitTests\ErniAcademy.Cache.StorageBlobs.UnitTests.csproj", "{FABB90D2-5975-4031-8F88-04FEE17D7C09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErniAcademy.Cache.StorageBlobs.UnitTests", "tests\ErniAcademy.Cache.StorageBlobs.UnitTests\ErniAcademy.Cache.StorageBlobs.UnitTests.csproj", "{FABB90D2-5975-4031-8F88-04FEE17D7C09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErniAcademy.Cache.OnMemory.UnitTests", "tests\ErniAcademy.Cache.OnMemory.UnitTests\ErniAcademy.Cache.OnMemory.UnitTests.csproj", "{14DC1E11-CC45-48C4-B7B6-3843B592F2DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErniAcademy.Cache.OnMemory.UnitTests", "tests\ErniAcademy.Cache.OnMemory.UnitTests\ErniAcademy.Cache.OnMemory.UnitTests.csproj", "{14DC1E11-CC45-48C4-B7B6-3843B592F2DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErniAcademy.Cache.Redis", "src\ErniAcademy.Cache.Redis\ErniAcademy.Cache.Redis.csproj", "{E23BF39D-FA10-42C7-9F79-ECF7A17E7C28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ErniAcademy.Cache.Redis", "src\ErniAcademy.Cache.Redis\ErniAcademy.Cache.Redis.csproj", "{E23BF39D-FA10-42C7-9F79-ECF7A17E7C28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErniAcademy.Cache.Redis.UnitTests", "tests\ErniAcademy.Cache.Redis.UnitTests\ErniAcademy.Cache.Redis.UnitTests.csproj", "{422B6A49-C9D5-4F33-99CB-D6CA8D0C1D1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +98,10 @@ Global
 		{E23BF39D-FA10-42C7-9F79-ECF7A17E7C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E23BF39D-FA10-42C7-9F79-ECF7A17E7C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E23BF39D-FA10-42C7-9F79-ECF7A17E7C28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{422B6A49-C9D5-4F33-99CB-D6CA8D0C1D1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{422B6A49-C9D5-4F33-99CB-D6CA8D0C1D1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{422B6A49-C9D5-4F33-99CB-D6CA8D0C1D1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{422B6A49-C9D5-4F33-99CB-D6CA8D0C1D1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +118,7 @@ Global
 		{FABB90D2-5975-4031-8F88-04FEE17D7C09} = {E9BEC824-50B2-4246-9250-636486A70721}
 		{14DC1E11-CC45-48C4-B7B6-3843B592F2DE} = {E9BEC824-50B2-4246-9250-636486A70721}
 		{E23BF39D-FA10-42C7-9F79-ECF7A17E7C28} = {2D2DF22D-D0CE-4606-9E05-C323A911E0D9}
+		{422B6A49-C9D5-4F33-99CB-D6CA8D0C1D1D} = {E9BEC824-50B2-4246-9250-636486A70721}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A45AECB9-C582-41C2-B1B2-E1F1684488D5}

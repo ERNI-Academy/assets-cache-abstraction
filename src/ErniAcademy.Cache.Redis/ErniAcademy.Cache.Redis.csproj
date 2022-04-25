@@ -27,7 +27,7 @@
 
 	<ItemGroup>
 		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-			<_Parameter1>ErniAcademy.Cache.StorageBlobs.UnitTests</_Parameter1>
+			<_Parameter1>ErniAcademy.Cache.Redis.UnitTests</_Parameter1>
 		</AssemblyAttribute>
 	</ItemGroup>
 

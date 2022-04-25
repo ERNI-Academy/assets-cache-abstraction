@@ -132,7 +132,7 @@ public abstract class BaseTests
         var key = "getasync_with_item";
         var item = new CacheItemDummy { Name = "hi" };
 
-        _sut.Set<CacheItemDummy>(key, item);
+        await _sut.SetAsync<CacheItemDummy>(key, item);
 
         //Act
         var actual = await _sut.GetAsync<CacheItemDummy>(key);
@@ -150,7 +150,7 @@ public abstract class BaseTests
 
         _sut.Set<CacheItemDummy>(key, item, new CacheOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(100) });
 
-        Task.Delay(101).GetAwaiter().GetResult();
+        await Task.Delay(101);
 
         //Act
         var actual = await _sut.GetAsync<CacheItemDummy>(key);
@@ -182,7 +182,7 @@ public abstract class BaseTests
         var key = "getoraddasync_with_item";
         var item = new CacheItemDummy { Name = "hi" };
 
-        _sut.Set<CacheItemDummy>(key, item);
+        await _sut.SetAsync<CacheItemDummy>(key, item);
 
         Func<Task<CacheItemDummy>> factory = () => Task.FromResult(new CacheItemDummy { Name = "hello" });
 
@@ -238,7 +238,7 @@ public abstract class BaseTests
         await _sut.SetAsync<CacheItemDummy>(key, item);
 
         //Assert
-        var actual = _sut.Get<CacheItemDummy>(key);
+        var actual = await _sut.GetAsync<CacheItemDummy>(key);
         actual.Should().BeEquivalentTo(item);
     }
 
@@ -257,7 +257,7 @@ public abstract class BaseTests
         await _sut.SetAsync<CacheItemDummy>(key, updated);
 
         //Assert
-        var actual = _sut.Get<CacheItemDummy>(key);
+        var actual = await _sut.GetAsync<CacheItemDummy>(key);
         actual.Should().BeEquivalentTo(updated);
     }
 
@@ -310,7 +310,7 @@ public abstract class BaseTests
         var key = "existsasync_with_item";
         var item = new CacheItemDummy { Name = "hi" };
 
-        _sut.Set<CacheItemDummy>(key, item);
+        await _sut.SetAsync<CacheItemDummy>(key, item);
 
         //Act
         var actual = await _sut.ExistsAsync(key);
@@ -318,9 +318,6 @@ public abstract class BaseTests
         //Assert
         actual.Should().BeTrue();
     }
-
-
-
 
     [Fact]
     public void Remove_with_no_item_in_cache_Should_do_nothing()
