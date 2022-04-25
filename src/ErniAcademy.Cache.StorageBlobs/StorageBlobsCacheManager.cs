@@ -60,7 +60,7 @@ public class StorageBlobsCacheManager : ICacheManager
 
     public async Task SetAsync<TItem>(string key, TItem value, ICacheOptions options = null, CancellationToken cancellationToken = default)
     {
-        GuardValue(value);
+        CacheGuard.GuardValue(value);
 
         await using var stream = new MemoryStream();
         await _serializer.SerializeToStreamAsync(value, stream, cancellationToken);
@@ -99,28 +99,7 @@ public class StorageBlobsCacheManager : ICacheManager
 
     internal BlobClient GetBlobClient(string key)
     {
-        GuardKey(key);
+        CacheGuard.GuardKey(key);
         return _blobContainerClientLazy.Value.GetBlobClient(key);
-    }
-
-    internal static void GuardKey(string key)
-    {
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
-
-        if (string.IsNullOrWhiteSpace(key))
-        {
-            throw new ArgumentException($"invalid {nameof(key)}", nameof(key));
-        }
-    }
-
-    internal static void GuardValue<TItem>(TItem value)
-    {
-        if (EqualityComparer<TItem>.Default.Equals(value, default))
-        {
-            throw new ArgumentException($"cache a default value is not allowed", nameof(value));
-        }
     }
 }

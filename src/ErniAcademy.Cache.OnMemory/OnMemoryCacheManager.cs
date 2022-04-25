@@ -20,7 +20,7 @@ public class OnMemoryCacheManager : ICacheManager
 
     public TItem Get<TItem>(string key)
     {
-        GuardKey(key);
+        CacheGuard.GuardKey(key);
         return _memoryCache.Get<TItem>(key);
     }
 
@@ -28,8 +28,8 @@ public class OnMemoryCacheManager : ICacheManager
 
     public void Set<TItem>(string key, TItem value, ICacheOptions options = null)
     {
-        GuardKey(key);
-        GuardValue(value);
+        CacheGuard.GuardKey(key);
+        CacheGuard.GuardValue(value);
         _memoryCache.Set<TItem>(key, value, options.ToMemoryCacheEntryOptions());
     }
 
@@ -41,7 +41,7 @@ public class OnMemoryCacheManager : ICacheManager
 
     public bool Exists(string key)
     {
-        GuardKey(key);
+        CacheGuard.GuardKey(key);
         return _memoryCache.Get(key) != null;
     }
 
@@ -49,7 +49,7 @@ public class OnMemoryCacheManager : ICacheManager
 
     public void Remove(string key)
     {
-        GuardKey(key);
+        CacheGuard.GuardKey(key);
         _memoryCache.Remove(key);
     }
 
@@ -57,26 +57,5 @@ public class OnMemoryCacheManager : ICacheManager
     {
         Remove(key);
         return Task.CompletedTask;
-    }
-
-    internal static void GuardKey(string key)
-    {
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
-
-        if (string.IsNullOrWhiteSpace(key))
-        {
-            throw new ArgumentException($"invalid {nameof(key)}", nameof(key));
-        }
-    }
-
-    internal static void GuardValue<TItem>(TItem value)
-    {
-        if (EqualityComparer<TItem>.Default.Equals(value, default))
-        {
-            throw new ArgumentException($"cache a default value is not allowed", nameof(value));
-        }
     }
 }

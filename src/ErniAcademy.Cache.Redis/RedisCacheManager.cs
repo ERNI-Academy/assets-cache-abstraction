@@ -52,8 +52,8 @@ public class RedisCacheManager : ICacheManager
 
     public async Task SetAsync<TItem>(string key, TItem value, ICacheOptions options = null, CancellationToken cancellationToken = default)
     {
-        GuardKey(key);
-        GuardValue(value);
+        CacheGuard.GuardKey(key);
+        CacheGuard.GuardValue(value);
 
         var valueStr = _serializer.SerializeToString(value);
         var expiry = (options ?? _defaultOptions).GetExpiration(DateTimeOffset.UtcNow);
@@ -67,7 +67,7 @@ public class RedisCacheManager : ICacheManager
 
     public Task<bool> ExistsAsync(string key, CancellationToken cancellationToken = default)
     {
-        GuardKey(key);
+        CacheGuard.GuardKey(key);
         return _databaseLazy.Value.KeyExistsAsync(key);
     }
 
@@ -75,28 +75,7 @@ public class RedisCacheManager : ICacheManager
 
     public Task RemoveAsync(string key, CancellationToken cancellationToken = default)
     {
-        GuardKey(key);
+        CacheGuard.GuardKey(key);
         return _databaseLazy.Value.KeyDeleteAsync(key);
-    }
-
-    internal static void GuardKey(string key)
-    {
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
-
-        if (string.IsNullOrWhiteSpace(key))
-        {
-            throw new ArgumentException($"invalid {nameof(key)}", nameof(key));
-        }
-    }
-
-    internal static void GuardValue<TItem>(TItem value)
-    {
-        if (EqualityComparer<TItem>.Default.Equals(value, default))
-        {
-            throw new ArgumentException($"cache a default value is not allowed", nameof(value));
-        }
     }
 }

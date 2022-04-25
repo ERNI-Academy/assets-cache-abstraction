@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace ErniAcademy.Cache.Redis.UnitTests.RedisCacheManagerTests;
+namespace ErniAcademy.Cache.Contracts.UnitTests.CacheGuardTests;
 
 public class GuardValue
 {
@@ -13,7 +13,7 @@ public class GuardValue
         string value = null;
 
         //Act
-        var actual = () => RedisCacheManager.GuardValue(value);
+        var actual = () => CacheGuard.GuardValue(value);
 
         //Assert
         var error = actual.Should().Throw<ArgumentException>();
@@ -30,7 +30,7 @@ public class GuardValue
     public void With_valid_value_Should_not_throw(object value)
     {
         //Act
-        var actual = () => RedisCacheManager.GuardValue(value);
+        var actual = () => CacheGuard.GuardValue(value);
 
         //Assert
         var error = actual.Should().NotThrow();

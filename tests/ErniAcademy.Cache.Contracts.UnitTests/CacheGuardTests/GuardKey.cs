@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace ErniAcademy.Cache.StorageBlobs.UnitTests.StorageBlobsCacheManagerTests;
+namespace ErniAcademy.Cache.Contracts.UnitTests.CacheGuardTests;
 
 public class GuardKey
 {
@@ -13,7 +13,7 @@ public class GuardKey
         string key = null;
 
         //Act
-        var actual = () => StorageBlobsCacheManager.GuardKey(key);
+        var actual = () => CacheGuard.GuardKey(key);
 
         //Assert
         var error = actual.Should().Throw<ArgumentNullException>();
@@ -26,7 +26,7 @@ public class GuardKey
     public void With_invalid_key_Throws_ArgumentException(string key)
     {
         //Act
-        var actual = () => StorageBlobsCacheManager.GuardKey(key);
+        var actual = () => CacheGuard.GuardKey(key);
 
         //Assert
         var error = actual.Should().Throw<ArgumentException>();
@@ -39,7 +39,7 @@ public class GuardKey
     public void With_valid_key_Should_not_throw(string key)
     {
         //Act
-        var actual = () => StorageBlobsCacheManager.GuardKey(key);
+        var actual = () => CacheGuard.GuardKey(key);
 
         //Assert
         var error = actual.Should().NotThrow();
