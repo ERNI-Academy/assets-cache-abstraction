@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<IsPackable>false</IsPackable>
+	<SonarQubeExclude>true</SonarQubeExclude>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\..\assets-serializers-abstraction\src\ErniAcademy.Serializers.Json\ErniAcademy.Serializers.Json.csproj" />
+	<ProjectReference Include="..\..\src\ErniAcademy.Cache.OnMemory\ErniAcademy.Cache.OnMemory.csproj" />
+	<ProjectReference Include="..\..\src\ErniAcademy.Cache.Redis\ErniAcademy.Cache.Redis.csproj" />
+	<ProjectReference Include="..\..\src\ErniAcademy.Cache.StorageBlobs\ErniAcademy.Cache.StorageBlobs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

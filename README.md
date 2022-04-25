@@ -62,15 +62,15 @@ class MyItem
 var item = new MyItem { MyCustomProperty = "hi" };
 
 //you can choose between many impl
-ICacheManager cache = new ErniAcademy.Cache.OnMemory.OnMemoryCacheManager();//args ommited for simplicity
-ICacheManager cache = new ErniAcademy.Cache.Redis.RedisCacheManager();//args ommited for simplicity
-ICacheManager cache = new ErniAcademy.Cache.StorageBlobs.StorageBlobsCacheManager();//args ommited for simplicity
+ICacheManager cacheManager = new ErniAcademy.Cache.OnMemory.OnMemoryCacheManager();//args ommited for simplicity
+ICacheManager cacheManager = new ErniAcademy.Cache.Redis.RedisCacheManager();//args ommited for simplicity
+ICacheManager cacheManager = new ErniAcademy.Cache.StorageBlobs.StorageBlobsCacheManager();//args ommited for simplicity
 
 //set an Item into cache
-await cache.SetAsync("key1", item);
+await cacheManager.SetAsync("key1", item);
 
 //get an Item from cache
-var cachedItem = await cache.GetAsync("key1");
+var cachedItem = await cacheManager.GetAsync<MyItem>("key1");
 ```
 
 3. Cache Depency injection (ServiceCollection)
@@ -91,11 +91,11 @@ services.AddCacheStorageBlobs();//args ommited for simplicity
 
 class MyService
 {
-  private readonly ICacheManager _cache;
+  private readonly ICacheManager _cacheManager;
 
-  public MyService(ICacheManager cache)
+  public MyService(ICacheManager cacheManager)
   {
-    _cache = cache;
+    _cacheManager = cacheManager;
   }
 
   public async Task SomeMethod()
@@ -105,10 +105,10 @@ class MyService
      var item = new MyItem { MyCustomProperty = "hi" };
 
      //set an Item into cache
-     await cache.SetAsync("key1", item);
+     await _cacheManager.SetAsync("key1", item);
 
      //get an Item from cache
-     var cachedItem = await cache.GetAsync("key1");
+     var cachedItem = await _cacheManager.GetAsync<MyItem>("key1");
   }
 }
 ```
