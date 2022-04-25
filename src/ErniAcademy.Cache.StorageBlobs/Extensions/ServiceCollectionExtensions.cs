@@ -6,6 +6,7 @@ using ErniAcademy.Serializers.Contracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace ErniAcademy.Cache.StorageBlobs.Extensions;
@@ -33,8 +34,9 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton<ICacheManager>(provider =>
         {
             var blobContainerClientProvider = new ConnectionStringProvider(provider.GetRequiredService<IOptionsMonitor<ConnectionStringOptions>>(), blobOptions);
-            
-            return new StorageBlobsCacheManager(blobContainerClientProvider, serializer, provider.GetRequiredService<IOptionsMonitor<StorageBlobsCacheOptions>>());
+            var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+
+            return new StorageBlobsCacheManager(blobContainerClientProvider, serializer, provider.GetRequiredService<IOptionsMonitor<StorageBlobsCacheOptions>>(), loggerFactory);
         });
 
         return services;

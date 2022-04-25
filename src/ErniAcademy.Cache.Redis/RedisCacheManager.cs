@@ -58,10 +58,9 @@ public class RedisCacheManager : ICacheManager
         var valueStr = _serializer.SerializeToString(value);
         var expiry = (options ?? _defaultOptions).GetExpiration(DateTimeOffset.UtcNow);
 
-        var expiryStr = expiry.ToString();
-        _logger.Log(LogLevel.Information, "Cache set '{key}' expiry: {expiryStr}", key, expiryStr);
-
         await _databaseLazy.Value.StringSetAsync(key, valueStr, expiry: expiry, flags: CommandFlags.FireAndForget);
+
+        _logger.Log(LogLevel.Information, "Cache set '{key}' expiry: {expiryStr}", key, expiry?.ToString());
     }
 
     public bool Exists(string key) => ExistsAsync(key).GetAwaiter().GetResult();

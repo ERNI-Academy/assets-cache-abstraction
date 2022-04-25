@@ -7,6 +7,7 @@ using ErniAcademy.Cache.StorageBlobs.ClientProvider;
 using ErniAcademy.Cache.StorageBlobs.Configuration;
 using ErniAcademy.Serializers.Contracts;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
 namespace ErniAcademy.Cache.StorageBlobs;
 
@@ -14,15 +15,18 @@ public class StorageBlobsCacheManager : ICacheManager
 {
     private readonly Lazy<BlobContainerClient> _blobContainerClientLazy;
     private readonly ISerializer _serializer;
+    private readonly ILogger _logger;
     private readonly ICacheOptions _defaultOptions;
 
     public StorageBlobsCacheManager(
         IBlobContainerClientProvider blobContainerClientProvider,
         ISerializer serializer,
-        IOptionsMonitor<StorageBlobsCacheOptions> options)
+        IOptionsMonitor<StorageBlobsCacheOptions> options,
+        ILoggerFactory loggerFactory)
     {
         _blobContainerClientLazy = new Lazy<BlobContainerClient>(() => blobContainerClientProvider.GetClient());
         _serializer = serializer;
+        _logger = loggerFactory.CreateLogger(nameof(StorageBlobsCacheManager));
         _defaultOptions = new CacheOptions();
         _defaultOptions.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(options.CurrentValue.TimeToLiveInSeconds);
     }
@@ -42,14 +46,18 @@ public class StorageBlobsCacheManager : ICacheManager
         catch (RequestFailedException ex)
             when (ex.ErrorCode == BlobErrorCode.BlobNotFound)
         {
+            _logger.Log(LogLevel.Information, "Cache get '{key}' hit: false, not_found", key);
             return default(TItem);
         }
 
         if(blobResponse.Value.HasExpired())
         {
+            _logger.Log(LogLevel.Information, "Cache get '{key}' hit: false, expired", key);
             await RemoveAsync(key, cancellationToken);
             return default(TItem);
         }
+
+        _logger.Log(LogLevel.Information, "Cache get '{key}' hit: true", key);
 
         var result = await _serializer.DeserializeFromStreamAsync<TItem>(blobResponse.Value.Content, cancellationToken);
         blobResponse.Value.Dispose();
@@ -70,6 +78,8 @@ public class StorageBlobsCacheManager : ICacheManager
 
         var blobClient = GetBlobClient(key);
         await blobClient.UploadAsync(stream, blobHttpHeaders, (options ?? _defaultOptions).ToMetadata(), cancellationToken: cancellationToken);
+
+        _logger.Log(LogLevel.Information, "Cache set '{key}'", key);
     }
 
     public bool Exists(string key) => ExistsAsync(key).GetAwaiter().GetResult();

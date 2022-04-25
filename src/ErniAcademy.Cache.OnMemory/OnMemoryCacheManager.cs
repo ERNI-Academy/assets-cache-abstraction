@@ -1,27 +1,36 @@
 ﻿using ErniAcademy.Cache.Contracts;
 using ErniAcademy.Cache.OnMemory.Extensions;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace ErniAcademy.Cache.OnMemory;
 
 public class OnMemoryCacheManager : ICacheManager
 {
     private readonly MemoryCache _memoryCache;
+    private readonly ILogger _logger;
 
-    public OnMemoryCacheManager()
-        : this(new MemoryCacheOptions())
+    public OnMemoryCacheManager(ILoggerFactory loggerFactory)
+        : this(new MemoryCacheOptions(), loggerFactory)
     {
     }
 
-    public OnMemoryCacheManager(MemoryCacheOptions options)
+    public OnMemoryCacheManager(MemoryCacheOptions options, ILoggerFactory loggerFactory)
     {
         _memoryCache = new MemoryCache(options);
+        _logger = loggerFactory.CreateLogger(nameof(OnMemoryCacheManager));
     }
 
     public TItem Get<TItem>(string key)
     {
         CacheGuard.GuardKey(key);
-        return _memoryCache.Get<TItem>(key);
+
+        var value = _memoryCache.Get<TItem>(key);
+
+        var cacheHit = value == null;
+        _logger.Log(LogLevel.Information, "Cache get '{key}' hit: {cacheHit}", key, cacheHit);
+
+        return value;
     }
 
     public Task<TItem> GetAsync<TItem>(string key, CancellationToken cancellationToken = default) => Task.FromResult(Get<TItem>(key));
@@ -30,7 +39,10 @@ public class OnMemoryCacheManager : ICacheManager
     {
         CacheGuard.GuardKey(key);
         CacheGuard.GuardValue(value);
+
         _memoryCache.Set<TItem>(key, value, options.ToMemoryCacheEntryOptions());
+
+        _logger.Log(LogLevel.Information, "Cache set '{key}'", key);
     }
 
     public Task SetAsync<TItem>(string key, TItem value, ICacheOptions options = null, CancellationToken cancellationToken = default)
