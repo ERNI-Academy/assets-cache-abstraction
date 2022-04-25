@@ -2,6 +2,7 @@
 using ErniAcademy.Cache.OnMemory.Extensions;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace ErniAcademy.Cache.OnMemory.UnitTests.ServiceCollectionExtensionsTests;
@@ -13,6 +14,7 @@ public class AddCacheOnMemory
     {
         //Arrange
         var services = new ServiceCollection();
+        services.AddLogging(builder => builder.AddDebug());
         services.AddCacheOnMemory();
         var provider = services.BuildServiceProvider();
 

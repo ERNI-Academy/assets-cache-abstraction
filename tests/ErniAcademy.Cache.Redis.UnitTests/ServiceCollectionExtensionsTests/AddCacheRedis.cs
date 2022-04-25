@@ -4,6 +4,7 @@ using ErniAcademy.Serializers.Contracts;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using System.Collections.Generic;
@@ -33,6 +34,7 @@ public class AddCacheRedis
                 }).Build();
 
         var services = new ServiceCollection();
+        services.AddLogging(builder => builder.AddDebug());
         services.AddCacheRedis(configuration, _serializer, "Redis");
         var provider = services.BuildServiceProvider();
 

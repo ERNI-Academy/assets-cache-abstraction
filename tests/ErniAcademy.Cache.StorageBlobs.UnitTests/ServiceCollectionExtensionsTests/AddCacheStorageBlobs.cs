@@ -4,6 +4,7 @@ using ErniAcademy.Serializers.Contracts;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using System.Collections.Generic;
 using Xunit;
@@ -29,6 +30,7 @@ public class AddCacheStorageBlobs
                 }).Build();
 
         var services = new ServiceCollection();
+        services.AddLogging(builder => builder.AddDebug());
         services.AddCacheStorageBlobs(configuration, _serializer, "StorageBlobs");
         var provider = services.BuildServiceProvider();
 
