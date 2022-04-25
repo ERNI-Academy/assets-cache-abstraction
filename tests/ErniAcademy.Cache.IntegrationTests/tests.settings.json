@@ -1,0 +1,19 @@
+{
+  "Environment": "",
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information"
+    }
+  },
+  "Cache": {
+    "StorageBlobs": {
+      "ConnectionString": "",
+      "ContainerName": "cachetests",
+      "TimeToLiveInSeconds": 5
+    },
+    "Redis": {
+      "ConnectionString": "",
+      "TimeToLiveInSeconds": 5
+    }
+  }
+}

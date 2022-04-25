@@ -1,0 +1,3 @@
+[submodule "assets-serializers-abstraction"]
+	path = assets-serializers-abstraction
+	url = https://github.com/ERNI-Academy/assets-serializers-abstraction
