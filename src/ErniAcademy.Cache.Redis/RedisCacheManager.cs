@@ -38,7 +38,7 @@ public class RedisCacheManager : ICacheManager
         var value = await _databaseLazy.Value.StringGetAsync(key);
         var cacheHit = value.HasValue && !value.IsNullOrEmpty;
 
-        _logger.Log(LogLevel.Information, $"Cache get '{key}' hit: {cacheHit}");
+        _logger.Log(LogLevel.Information, $"Cache get '{0}' hit: {1}", key, cacheHit);
 
         if (!cacheHit)
         {
@@ -58,7 +58,7 @@ public class RedisCacheManager : ICacheManager
         var valueStr = _serializer.SerializeToString(value);
         var expiry = (options ?? _defaultOptions).GetExpiration(DateTimeOffset.UtcNow);
 
-        _logger.Log(LogLevel.Information, $"Cache set '{key}' expiry: {expiry?.ToString()}");
+        _logger.Log(LogLevel.Information, $"Cache set '{0}' expiry: {1}", key, expiry?.ToString());
 
         await _databaseLazy.Value.StringSetAsync(key, valueStr, expiry: expiry, flags: CommandFlags.FireAndForget);
     }
