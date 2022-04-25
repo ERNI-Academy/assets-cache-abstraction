@@ -19,7 +19,7 @@ public static class CacheOptionsExtensions
         return absoluteExpiration;
     }
 
-    public static DateTimeOffset? GetExpirationTimespan(this ICacheOptions options, DateTimeOffset creationTime)
+    public static TimeSpan? GetExpiration(this ICacheOptions options, DateTimeOffset creationTime)
     {
         if (options.AbsoluteExpiration.HasValue && options.AbsoluteExpiration <= creationTime)
         {

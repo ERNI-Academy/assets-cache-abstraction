@@ -1,4 +1,5 @@
 ﻿using ErniAcademy.Cache.Contracts;
+using ErniAcademy.Cache.Contracts.Extensions;
 using ErniAcademy.Cache.Redis.Configuration;
 using ErniAcademy.Serializers.Contracts;
 using Microsoft.Extensions.Options;
@@ -28,10 +29,16 @@ public class RedisCacheManager : ICacheManager
     public async Task<TItem> GetAsync<TItem>(string key, CancellationToken cancellationToken = default)
     {
         var value = await _databaseLazy.Value.StringGetAsync(key);
+
+        if (!value.HasValue || value.IsNullOrEmpty)
+        {
+            return default(TItem);
+        }
+
         return _serializer.DeserializeFromString<TItem>(value.ToString());
     }
 
-    public void Set<TItem>(string key, TItem value, ICacheOptions options = null) => SetAsync<TItem>(key, value).GetAwaiter().GetResult();
+    public void Set<TItem>(string key, TItem value, ICacheOptions options = null) => SetAsync<TItem>(key, value, options).GetAwaiter().GetResult();
 
     public async Task SetAsync<TItem>(string key, TItem value, ICacheOptions options = null, CancellationToken cancellationToken = default)
     {
@@ -39,7 +46,8 @@ public class RedisCacheManager : ICacheManager
         GuardValue(value);
 
         var valueStr = _serializer.SerializeToString(value);
-        await _databaseLazy.Value.StringSetAsync(key, valueStr, (options ?? _defaultOptions).To());
+        var expiry = (options ?? _defaultOptions).GetExpiration(DateTimeOffset.UtcNow);
+        await _databaseLazy.Value.StringSetAsync(key, valueStr, expiry: expiry);
     }
 
     public bool Exists(string key) => ExistsAsync(key).GetAwaiter().GetResult();

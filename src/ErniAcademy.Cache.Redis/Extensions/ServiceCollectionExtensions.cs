@@ -11,7 +11,7 @@ namespace ErniAcademy.Cache.Redis.Extensions;
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Extension method to configure IEventPublisher contract with RedisPublisher by default will use connection string options 
+    /// Extension method to configure ICacheManager contract with RedisCacheManager by default will use connection string options 
     /// to connect to Redis database, make sure ConnectionString of Redis is configure in the configuration section.
     /// </summary>
     /// <param name="services">the ServiceCollection</param>
@@ -19,7 +19,7 @@ public static class ServiceCollectionExtensions
     /// <param name="serializer">the serializer to be use</param>
     /// <param name="sectionKey">the configuration section key to get the options</param>
     /// <returns>IServiceCollection</returns>
-    public static IServiceCollection AddEventsPublisherRedis(this IServiceCollection services,
+    public static IServiceCollection AddCacheRedis(this IServiceCollection services,
         IConfiguration configuration,
         ISerializer serializer,
         string sectionKey)

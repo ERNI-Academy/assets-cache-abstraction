@@ -5,6 +5,10 @@
       "ConnectionString": "",
       "ContainerName": "cachetests",
       "TimeToLiveInSeconds": 5
+    },
+    "Redis": {
+      "ConnectionString": "",
+      "TimeToLiveInSeconds": 5
     }
   }
 }
