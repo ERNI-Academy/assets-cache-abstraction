@@ -2,6 +2,7 @@
 using ErniAcademy.Cache.Contracts.Extensions;
 using ErniAcademy.Cache.Redis.Configuration;
 using ErniAcademy.Serializers.Contracts;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using StackExchange.Redis;
 
@@ -11,15 +12,21 @@ public class RedisCacheManager : ICacheManager
 {
     private readonly Lazy<IDatabase> _databaseLazy;
     private readonly ISerializer _serializer;
+    private readonly ILogger _logger;
     private readonly ICacheOptions _defaultOptions;
 
     public RedisCacheManager(
         IConnectionMultiplexerProvider provider,
         ISerializer serializer,
-        IOptionsMonitor<RedisCacheOptions> options)
+        IOptionsMonitor<RedisCacheOptions> options,
+        ILoggerFactory loggerFactory)
     {
         _serializer = serializer;
-        _databaseLazy = new Lazy<IDatabase>(() => provider.Connection.GetDatabase());
+        _logger = loggerFactory.CreateLogger(nameof(RedisCacheManager));
+        _databaseLazy = new Lazy<IDatabase>(() => {
+            _logger.Log(LogLevel.Information, "Connecting to Redis database");
+            return provider.Connection.GetDatabase();
+        });
         _defaultOptions = new CacheOptions();
         _defaultOptions.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(options.CurrentValue.TimeToLiveInSeconds);
     }
@@ -29,8 +36,11 @@ public class RedisCacheManager : ICacheManager
     public async Task<TItem> GetAsync<TItem>(string key, CancellationToken cancellationToken = default)
     {
         var value = await _databaseLazy.Value.StringGetAsync(key);
+        var cacheHit = value.HasValue && !value.IsNullOrEmpty;
 
-        if (!value.HasValue || value.IsNullOrEmpty)
+        _logger.Log(LogLevel.Information, $"Cache get '{key}' hit: {cacheHit}");
+
+        if (!cacheHit)
         {
             return default(TItem);
         }
@@ -47,7 +57,10 @@ public class RedisCacheManager : ICacheManager
 
         var valueStr = _serializer.SerializeToString(value);
         var expiry = (options ?? _defaultOptions).GetExpiration(DateTimeOffset.UtcNow);
-        await _databaseLazy.Value.StringSetAsync(key, valueStr, expiry: expiry);
+
+        _logger.Log(LogLevel.Information, $"Cache set '{key}' expiry: {expiry?.ToString()}");
+
+        await _databaseLazy.Value.StringSetAsync(key, valueStr, expiry: expiry, flags: CommandFlags.FireAndForget);
     }
 
     public bool Exists(string key) => ExistsAsync(key).GetAwaiter().GetResult();

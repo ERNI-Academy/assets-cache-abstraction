@@ -1,5 +1,10 @@
 {
   "Environment": "",
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information"
+    }
+  },
   "Cache": {
     "StorageBlobs": {
       "ConnectionString": "",

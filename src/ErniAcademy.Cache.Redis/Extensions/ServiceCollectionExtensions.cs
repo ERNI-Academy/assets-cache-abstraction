@@ -4,6 +4,7 @@ using ErniAcademy.Serializers.Contracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace ErniAcademy.Cache.Redis.Extensions;
@@ -32,8 +33,8 @@ public static class ServiceCollectionExtensions
         services.TryAddSingleton<ICacheManager>(provider =>
         {
             var connectionMultiplexerProvider = provider.GetRequiredService<IConnectionMultiplexerProvider>();
-
-            return new RedisCacheManager(connectionMultiplexerProvider, serializer, provider.GetRequiredService<IOptionsMonitor<RedisCacheOptions>>());
+            var loggerFactory = provider.GetRequiredService<ILoggerFactory>();
+            return new RedisCacheManager(connectionMultiplexerProvider, serializer, provider.GetRequiredService<IOptionsMonitor<RedisCacheOptions>>(), loggerFactory);
         });
 
         return services;

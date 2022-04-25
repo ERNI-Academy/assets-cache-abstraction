@@ -3,6 +3,7 @@ using ErniAcademy.Cache.IntegrationTests.Utils;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Xunit;
@@ -21,6 +22,8 @@ public abstract class BaseTests
         var configuration = ConfigurationHelper.Get();
 
         services.AddSingleton<IConfiguration>(configuration);
+
+        services.AddLogging(builder => builder.AddConsole().AddDebug());
 
         RegisterSut(services, configuration);
 
