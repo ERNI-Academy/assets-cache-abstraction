@@ -51,5 +51,5 @@ jobs:
             dotnet test "tests/ErniAcademy.Cache.OnMemory.UnitTests/ErniAcademy.Cache.OnMemory.UnitTests.csproj" --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
             dotnet test "tests/ErniAcademy.Cache.Redis.UnitTests/ErniAcademy.Cache.Redis.UnitTests.csproj" --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
             dotnet test "tests/ErniAcademy.Cache.StorageBlobs.UnitTests/ErniAcademy.Cache.StorageBlobs.UnitTests.csproj" --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-            dotnet test "tests/ErniAcademy.Cache.IntegrationTests/ErniAcademy.Cache.IntegrationTests.csproj" --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+            dotnet test "tests/ErniAcademy.Cache.IntegrationTests/ErniAcademy.Cache.IntegrationTests.csproj" --no-restore --verbosity diagnostic /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
             dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
