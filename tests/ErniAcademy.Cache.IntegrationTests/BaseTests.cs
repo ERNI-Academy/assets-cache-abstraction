@@ -71,9 +71,7 @@ public abstract class BaseTests
         var key = "get_with_expired_item";
         var item = new CacheItemDummy { Name = "hi" };
 
-        _sut.Set<CacheItemDummy>(key, item, new CacheOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(100) });
-
-        Thread.Sleep(101);
+        _sut.Set<CacheItemDummy>(key, item, new CacheOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromTicks(1) });
 
         //Act
         var actual = _sut.Get<CacheItemDummy>(key);
