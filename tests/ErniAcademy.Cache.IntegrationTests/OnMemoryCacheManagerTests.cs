@@ -5,12 +5,12 @@ using Xunit;
 
 namespace ErniAcademy.Cache.IntegrationTests;
 
-[Trait("Cache", "OnMemory")]
-public class OnMemoryCacheManagerTests : BaseTests
-{
-    protected override IServiceCollection RegisterSut(IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddCacheOnMemory();
-        return services;
-    }
-}
+//[Trait("Cache", "OnMemory")]
+//public class OnMemoryCacheManagerTests : BaseTests
+//{
+//    protected override IServiceCollection RegisterSut(IServiceCollection services, IConfiguration configuration)
+//    {
+//        services.AddCacheOnMemory();
+//        return services;
+//    }
+//}
