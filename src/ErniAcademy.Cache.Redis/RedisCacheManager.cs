@@ -31,7 +31,20 @@ public class RedisCacheManager : ICacheManager
         _defaultOptions.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(options.CurrentValue.TimeToLiveInSeconds);
     }
 
-    public TItem Get<TItem>(string key) => GetAsync<TItem>(key).GetAwaiter().GetResult();
+    public TItem Get<TItem>(string key)
+    {
+        var value = _databaseLazy.Value.StringGet(key);
+        var cacheHit = value.HasValue && !value.IsNullOrEmpty;
+
+        _logger.Log(LogLevel.Information, "Cache get '{key}' hit: {cacheHit}", key, cacheHit);
+
+        if (!cacheHit)
+        {
+            return default(TItem);
+        }
+
+        return _serializer.DeserializeFromString<TItem>(value.ToString());
+    }
 
     public async Task<TItem> GetAsync<TItem>(string key, CancellationToken cancellationToken = default)
     {
