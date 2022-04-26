@@ -72,7 +72,7 @@ public abstract class BaseTests
 
         _sut.Set<CacheItemDummy>(key, item, new CacheOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(100) });
 
-        Task.Delay(101).GetAwaiter().GetResult();
+        Task.Delay(101).Wait();
 
         //Act
         var actual = _sut.Get<CacheItemDummy>(key);
