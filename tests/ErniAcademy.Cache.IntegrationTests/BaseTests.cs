@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -72,7 +73,7 @@ public abstract class BaseTests
 
         _sut.Set<CacheItemDummy>(key, item, new CacheOptions { AbsoluteExpirationRelativeToNow = TimeSpan.FromMilliseconds(100) });
 
-        Task.Delay(101).Wait();
+        Thread.Sleep(101);
 
         //Act
         var actual = _sut.Get<CacheItemDummy>(key);
