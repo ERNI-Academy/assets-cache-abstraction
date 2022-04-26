@@ -1,4 +1,5 @@
-# About {{ Name }}
+# About Cache Abstraction
+ Define a contract and many implementations (OnMemory, Azure Storage Blobs, Azure Redis) for caching
 
 ERNI Academy StarterKit, PoC, or Gidelines. This is an about description of your repository.
 
@@ -9,14 +10,20 @@ ERNI Academy StarterKit, PoC, or Gidelines. This is an about description of your
 
 This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-- [Tools A](https://example.com)
-- [Framework B](https://example.com)
-- [Project C](https://example.com)
+- [.Net 6.0](https://docs.microsoft.com/en-us/dotnet/core/whats-new/dotnet-6)
+- [c# 11](https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11)
+- [assets-serializers-abstraction (refereced as git submodule)](https://github.com/ERNI-Academy/assets-serializers-abstraction)
 
 ## Features
 
-- Be awesome
-- Make things faster
+ Get<TItem>
+ GetAsync<TItem>
+ Set<TItem>
+ SetAsync<TItem>
+ Exists
+ ExistsAsync
+ Remove
+ RemoveAsync
 
 ## Getting Started
 
@@ -24,29 +31,86 @@ This is an example of how you may give instructions on setting up your project l
 
 ## Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+.net 6
+Visual Studio or Visual Studio Code
 
 ## Installation
 
-Installation instructions {{ Name }} by running:
+Installation instructions Cache Abstraction by running:
 
 1. Clone the repo
 
-   ```sh
-   git clone https://github.com/ERNI-Academy/Project-Name.git
-   ```
+```sh
+git clone --recurse-submodules https://github.com/ERNI-Academy/assets-cache-abstraction.git
+```
 
-2. Install packages
+> `Important Note`  
+> All implementations heavly depends on Microsoft Options Pattern for configurations. See https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options?view=aspnetcore-6.0
+> So it is expected a proper configuration in order to work take a look at the samples to see how to configure each
+> All implementatins also depends on Microsoft logging. See https://docs.microsoft.com/en-us/dotnet/core/extensions/logging?tabs=command-line
 
-    ```sh
-    npm install
-    ```
 
-3. Configure
+2. Cache Basic use
 
-    ```JS
-    const API_KEY = 'ENTER YOUR API';
-    ```
+```c#
+class MyItem
+{
+	public string MyCustomProperty { get; set; }
+}
+
+var item = new MyItem { MyCustomProperty = "hi" };
+
+//you can choose between many impl
+ICacheManager cacheManager = new ErniAcademy.Cache.OnMemory.OnMemoryCacheManager();//args ommited for simplicity
+ICacheManager cacheManager = new ErniAcademy.Cache.Redis.RedisCacheManager();//args ommited for simplicity
+ICacheManager cacheManager = new ErniAcademy.Cache.StorageBlobs.StorageBlobsCacheManager();//args ommited for simplicity
+
+//set an Item into cache
+await cacheManager.SetAsync("key1", item);
+
+//get an Item from cache
+var cachedItem = await cacheManager.GetAsync<MyItem>("key1");
+```
+
+3. Cache Depency injection (ServiceCollection)
+
+```c#
+class MyItem
+{
+	public string MyCustomProperty { get; set; }
+}
+
+//when configuring your ServiceCollection use the extension methods defined in each library for easy of use. 
+//This sample is provided with no arguments, take a look on the extensions to see the rest of the arguments, like IConfiguration, ISerializer etc.
+services.AddCacheOnMemory();//args ommited for simplicity
+services.AddCacheRedis();//args ommited for simplicity
+services.AddCacheStorageBlobs();//args ommited for simplicity
+
+//then just inject ICacheManager directly in your classes
+
+class MyService
+{
+  private readonly ICacheManager _cacheManager;
+
+  public MyService(ICacheManager cacheManager)
+  {
+    _cacheManager = cacheManager;
+  }
+
+  public async Task SomeMethod()
+  {
+      //... some logic
+      
+     var item = new MyItem { MyCustomProperty = "hi" };
+
+     //set an Item into cache
+     await _cacheManager.SetAsync("key1", item);
+
+     //get an Item from cache
+     var cachedItem = await _cacheManager.GetAsync<MyItem>("key1");
+  }
+}
+```
 
 ## Contributing
 

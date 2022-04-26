@@ -1,0 +1,23 @@
+name: NuGet
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+          submodules: 'true'
+          fetch-depth: 0
+
+    - name: Pack
+      run: dotnet pack --configuration Release -o nuget
+      shell: bash
+    - name: Push
+      run: dotnet nuget push "nuget/*.nupkg" --source "https://nuget.pkg.github.com/ERNI-Academy/index.json" --api-key ${{ secrets.PACKAGESTOKEN }} --skip-duplicate
+      shell: bash

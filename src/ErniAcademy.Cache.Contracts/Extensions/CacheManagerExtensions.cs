@@ -8,6 +8,15 @@ public static class CacheManagerExtensions
     private static readonly ConcurrentDictionary<string, Lazy<SemaphoreSlim>> _semaphores = new ConcurrentDictionary<string, Lazy<SemaphoreSlim>>();
     private static readonly ObjectIDGenerator _objectIdGenerator = new ObjectIDGenerator();
 
+    /// <summary>
+    /// Get from cache if is present in cache. Otherwise will invoke factory to get the value and will return value after setted into cache
+    /// </summary>
+    /// <typeparam name="TItem">generic type of the item</typeparam>
+    /// <param name="cacheManager">ICacheManager instance to be extended</param>
+    /// <param name="key">the unique identifier key</param>
+    /// <param name="factory">factory to be invoked to get TItem value if is not in cache</param>
+    /// <param name="options">the cache options for this item</param>
+    /// <returns>TItem. default(TItem) if not found</returns>
     public static TItem GetOrAdd<TItem>(
         this ICacheManager cacheManager,
         string key,
@@ -34,6 +43,15 @@ public static class CacheManagerExtensions
         return item;
     }
 
+    /// <summary>
+    /// Get from cache if is present in cache. Otherwise will invoke factory to get the value and will return value after setted into cache
+    /// </summary>
+    /// <typeparam name="TItem">generic type of the item</typeparam>
+    /// <param name="cacheManager">ICacheManager instance to be extended</param>
+    /// <param name="key">the unique identifier key</param>
+    /// <param name="factory">factory to be invoked to get TItem value if is not in cache</param>
+    /// <param name="options">the cache options for this item</param>
+    /// <returns>Task<TItem>. default(TItem) if not found</returns>
     public static async Task<TItem> GetOrAddAsync<TItem>(
         this ICacheManager cacheManager,
         string key,
