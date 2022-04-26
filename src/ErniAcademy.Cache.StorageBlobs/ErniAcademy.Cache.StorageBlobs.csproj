@@ -9,7 +9,7 @@
 		<Company>Erni</Company>
 		<PackageDescription>Cache Storage Blobs impl</PackageDescription>
 		<PackageTags>Azur Cache Storage Blobs</PackageTags>
-		<VersionPrefix>1.0.0</VersionPrefix>
+		<VersionPrefix>1.0.1</VersionPrefix>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -9,7 +9,7 @@
 		<Company>Erni</Company>
 		<PackageDescription>Cache Redis impl</PackageDescription>
 		<PackageTags>Azur Cache Redis</PackageTags>
-		<VersionPrefix>1.0.0</VersionPrefix>
+		<VersionPrefix>1.0.1</VersionPrefix>
 	</PropertyGroup>
 
 	<ItemGroup>

@@ -73,13 +73,14 @@ public class StorageBlobsCacheManager : ICacheManager
         await using var stream = new MemoryStream();
         await _serializer.SerializeToStreamAsync(value, stream, cancellationToken);
         stream.Seek(0, SeekOrigin.Begin);
-        
+
+        var currentOptions = (options ?? _defaultOptions);
         var blobHttpHeaders = new BlobHttpHeaders { ContentType = _serializer.ContentType };
 
         var blobClient = GetBlobClient(key);
-        await blobClient.UploadAsync(stream, blobHttpHeaders, (options ?? _defaultOptions).ToMetadata(), cancellationToken: cancellationToken);
+        await blobClient.UploadAsync(stream, blobHttpHeaders, currentOptions.ToMetadata(), cancellationToken: cancellationToken);
 
-        _logger.Log(LogLevel.Information, "Cache set '{key}'", key);
+        _logger.Log(LogLevel.Information, "Cache set '{key}' options: {currentOptions}", key, currentOptions.ToString());
     }
 
     public bool Exists(string key) => ExistsAsync(key).GetAwaiter().GetResult();

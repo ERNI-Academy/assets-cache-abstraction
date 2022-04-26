@@ -55,12 +55,12 @@ public class RedisCacheManager : ICacheManager
         CacheGuard.GuardKey(key);
         CacheGuard.GuardValue(value);
 
+        var currentOptions = (options ?? _defaultOptions);
         var valueStr = _serializer.SerializeToString(value);
-        var expiry = (options ?? _defaultOptions).GetExpiration(DateTimeOffset.UtcNow);
 
-        await _databaseLazy.Value.StringSetAsync(key, valueStr, expiry: expiry, flags: CommandFlags.FireAndForget);
+        await _databaseLazy.Value.StringSetAsync(key, valueStr, expiry: currentOptions.GetExpiration(DateTimeOffset.UtcNow), flags: CommandFlags.FireAndForget);
 
-        _logger.Log(LogLevel.Information, "Cache set '{key}' expiry: {expiryStr}", key, expiry?.ToString());
+        _logger.Log(LogLevel.Information, "Cache set '{key}' options: {currentOptions}", key, currentOptions.ToString());
     }
 
     public bool Exists(string key) => ExistsAsync(key).GetAwaiter().GetResult();
