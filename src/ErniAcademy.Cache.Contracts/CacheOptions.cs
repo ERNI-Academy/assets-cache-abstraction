@@ -1,4 +1,6 @@
-﻿namespace ErniAcademy.Cache.Contracts;
+﻿using System.Text;
+
+namespace ErniAcademy.Cache.Contracts;
 
 public class CacheOptions : ICacheOptions
 {
@@ -38,5 +40,25 @@ public class CacheOptions : ICacheOptions
             }
             _slidingExpiration = value;
         }
+    }
+
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+        
+        if(AbsoluteExpiration.HasValue)
+        {
+            sb.Append($"{nameof(AbsoluteExpiration)}:{AbsoluteExpiration.Value.ToString("o")}.");
+        }
+        if (AbsoluteExpirationRelativeToNow.HasValue)
+        {
+            sb.Append($"{nameof(AbsoluteExpirationRelativeToNow)}:{AbsoluteExpirationRelativeToNow.Value.ToString()}.");
+        }
+        if (SlidingExpiration.HasValue)
+        {
+            sb.Append($"{nameof(SlidingExpiration)}:{SlidingExpiration.Value.ToString()}.");
+        }
+
+        return sb.ToString();
     }
 }

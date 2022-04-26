@@ -42,7 +42,7 @@ public class OnMemoryCacheManager : ICacheManager
 
         _memoryCache.Set<TItem>(key, value, options.ToMemoryCacheEntryOptions());
 
-        _logger.Log(LogLevel.Information, "Cache set '{key}'", key);
+        _logger.Log(LogLevel.Information, "Cache set '{key}' options: {options}", key, options?.ToString());
     }
 
     public Task SetAsync<TItem>(string key, TItem value, ICacheOptions options = null, CancellationToken cancellationToken = default)

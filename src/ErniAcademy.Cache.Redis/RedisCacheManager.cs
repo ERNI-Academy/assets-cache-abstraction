@@ -31,7 +31,20 @@ public class RedisCacheManager : ICacheManager
         _defaultOptions.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(options.CurrentValue.TimeToLiveInSeconds);
     }
 
-    public TItem Get<TItem>(string key) => GetAsync<TItem>(key).GetAwaiter().GetResult();
+    public TItem Get<TItem>(string key)
+    {
+        var value = _databaseLazy.Value.StringGet(key);
+        var cacheHit = value.HasValue && !value.IsNullOrEmpty;
+
+        _logger.Log(LogLevel.Information, "Cache get '{key}' hit: {cacheHit}", key, cacheHit);
+
+        if (!cacheHit)
+        {
+            return default(TItem);
+        }
+
+        return _serializer.DeserializeFromString<TItem>(value.ToString());
+    }
 
     public async Task<TItem> GetAsync<TItem>(string key, CancellationToken cancellationToken = default)
     {
@@ -55,12 +68,12 @@ public class RedisCacheManager : ICacheManager
         CacheGuard.GuardKey(key);
         CacheGuard.GuardValue(value);
 
+        var currentOptions = (options ?? _defaultOptions);
         var valueStr = _serializer.SerializeToString(value);
-        var expiry = (options ?? _defaultOptions).GetExpiration(DateTimeOffset.UtcNow);
 
-        await _databaseLazy.Value.StringSetAsync(key, valueStr, expiry: expiry, flags: CommandFlags.FireAndForget);
+        await _databaseLazy.Value.StringSetAsync(key, valueStr, expiry: currentOptions.GetExpiration(DateTimeOffset.UtcNow), flags: CommandFlags.FireAndForget);
 
-        _logger.Log(LogLevel.Information, "Cache set '{key}' expiry: {expiryStr}", key, expiry?.ToString());
+        _logger.Log(LogLevel.Information, "Cache set '{key}' options: {currentOptions}", key, currentOptions.ToString());
     }
 
     public bool Exists(string key) => ExistsAsync(key).GetAwaiter().GetResult();

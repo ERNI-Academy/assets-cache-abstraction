@@ -9,7 +9,7 @@
 		<Company>Erni</Company>
 		<PackageDescription>Cache OnMemory impl</PackageDescription>
 		<PackageTags>Cache OnMemory</PackageTags>
-		<VersionPrefix>1.0.0</VersionPrefix>
+		<VersionPrefix>1.0.1</VersionPrefix>
 	</PropertyGroup>
 
 	<ItemGroup>
