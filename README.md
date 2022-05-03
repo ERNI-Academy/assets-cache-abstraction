@@ -120,7 +120,7 @@ Please see our [Contribution Guide](CONTRIBUTING.md) to learn how to contribute.
 
 ![MIT](https://img.shields.io/badge/License-MIT-blue.svg)
 
-(LICENSE) © {{Year}} [ERNI - Swiss Software Engineering](https://www.betterask.erni)
+(LICENSE) © 2022 [ERNI - Swiss Software Engineering](https://www.betterask.erni)
 
 ## Code of conduct
 
@@ -128,7 +128,7 @@ Please see our [Code of Conduct](CODE_OF_CONDUCT.md)
 
 ## Stats
 
-Check [https://repobeats.axiom.co/](https://repobeats.axiom.co/) for the right URL
+![Alt](https://repobeats.axiom.co/api/embed/de239ffb5f028358f6bb691959b51f8af059b8dc.svg "Repobeats analytics image")
 
 ## Follow us
 

@@ -29,27 +29,9 @@ jobs:
             Cache.StorageBlobs.ConnectionString: ${{ secrets.CACHE_STORAGEBLOBS_CONNECTIONSTRING }}
             Cache.Redis.ConnectionString: ${{ secrets.CACHE_REDIS_CONNECTIONSTRING }}
       
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      - id: sonarcloud
+        uses: ERNI-Academy/assets-github-actions-dotnet-sonarcloud@v1
         with:
-          java-version: 1.11
-
-      - name: Install dotnet SonarCloud scanner
-        run: |
-             dotnet tool install --global dotnet-sonarscanner
-        shell: powershell
-                  
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
-        run: |
-            dotnet sonarscanner begin /k:"ERNI-Academy_assets-cache-abstraction" /o:"erni-academy" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
-            dotnet build ./Cache.sln --configuration release
-            dotnet test "tests/ErniAcademy.Cache.Contracts.UnitTests/ErniAcademy.Cache.Contracts.UnitTests.csproj" --configuration release --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-            dotnet test "tests/ErniAcademy.Cache.OnMemory.UnitTests/ErniAcademy.Cache.OnMemory.UnitTests.csproj" --configuration release --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-            dotnet test "tests/ErniAcademy.Cache.Redis.UnitTests/ErniAcademy.Cache.Redis.UnitTests.csproj" --configuration release --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-            dotnet test "tests/ErniAcademy.Cache.StorageBlobs.UnitTests/ErniAcademy.Cache.StorageBlobs.UnitTests.csproj" --configuration release --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-            dotnet test "tests/ErniAcademy.Cache.IntegrationTests/ErniAcademy.Cache.IntegrationTests.csproj" --configuration release --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
-            dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+            sonar_project_key: 'ERNI-Academy_assets-cache-abstraction'
+            sonar_token: ${{ secrets.SONAR_TOKEN }}
+            github_token: ${{ secrets.GITHUB_TOKEN }}
