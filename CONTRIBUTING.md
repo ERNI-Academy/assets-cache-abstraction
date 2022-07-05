@@ -1,4 +1,4 @@
-[code_of_conduct]: https://github.com/rgonzalezabreu/masterpiece/blob/main/CODE_OF_CONDUCT.md
+[code_of_conduct]: ./CODE_OF_CONDUCT.md
 [fork]: https://docs.github.com/en/github/getting-started-with-github/fork-a-repo
 [clone]: https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository
 [push]: https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/merging-an-upstream-repository-into-your-fork
